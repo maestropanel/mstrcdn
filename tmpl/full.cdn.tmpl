@@ -1,0 +1,19 @@
+server {
+    listen      ##IP##:##PORT##;
+    server_name cdn.##DOMAIN##.streamprovider.net cdn.##DOMAIN## ##DOMAIN##.streamprovider.net;
+	access_log  /home/nginx-log/cdn.##DOMAIN##.streamprovider.net.cdnbandwidth.log cdn;
+    error_log /dev/null;
+	location / {
+                proxy_pass  http://www.##DOMAIN##;
+                add_header  X-SAGLAYICI-Node TR.IST.05051;
+                proxy_cache yzUnK;
+                proxy_cache_valid  200 302  206 7d;
+                proxy_cache_valid  404      1m;
+                proxy_redirect          off;
+                proxy_next_upstream error timeout invalid_header http_500;
+                proxy_ignore_headers X-Accel-Expires Expires Cache-Control Set-Cookie;
+                proxy_connect_timeout   10;
+                proxy_hide_header Set-Cookie;
+                expires max;
+       }
+}

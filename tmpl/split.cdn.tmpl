@@ -1,0 +1,46 @@
+server {
+    listen      ##IP##:##PORT##;
+    server_name cdn.##DOMAIN##.streamprovider.net cdn.##DOMAIN## ##DOMAIN##.streamprovider.net;
+    access_log  /home/nginx-log/cdn.##DOMAIN##.streamprovider.net.cdnbandwidth.log cdn;
+    error_log /dev/null;
+	
+	location / {
+                rewrite ^(.*) http://www.##DOMAIN##$1 permanent;
+       }
+	   
+        location ~* \.(eot|ttf|woff)$ {
+                add_header Access-Control-Allow-Origin *;
+                proxy_pass	http://www.##DOMAIN##;
+                proxy_cache 5tvsY;
+                proxy_cache_valid	200	302	206 7d;
+                proxy_cache_valid	404	1m;
+                proxy_redirect          off;
+                proxy_next_upstream     error timeout invalid_header http_500;
+                proxy_ignore_headers X-Accel-Expires Expires Cache-Control Set-Cookie;
+                proxy_connect_timeout   10;
+                proxy_hide_header Set-Cookie;
+                expires max;
+        }
+        location ~* ^.+\.(jpg|jpeg|gif|png|ico|css|zip|tgz|gz|rar|bz2|pdf|txt|tar|wav|bmp|rtf|js|flv|swf)?.+$ {
+                proxy_pass              http://www.##DOMAIN##;
+                proxy_cache 5tvsY;
+                proxy_cache_valid  200 302  206 7d;
+                proxy_cache_valid  404      1m;
+                proxy_redirect          off;
+                proxy_next_upstream     error timeout invalid_header http_500;
+                proxy_ignore_headers X-Accel-Expires Expires Cache-Control Set-Cookie;
+                proxy_connect_timeout   10;
+                proxy_hide_header Set-Cookie;
+                expires max;
+       }
+        location ~* ^.+\.(html|htm)?.+$ {
+                proxy_pass              http://www.##DOMAIN##;
+                proxy_cache 5tvsY;
+                proxy_cache_valid  200 302  30m;
+                proxy_cache_valid  404      1m;
+                proxy_redirect          off;
+                proxy_next_upstream     error timeout invalid_header http_500;
+                proxy_connect_timeout   2;
+                expires max;
+       }
+}

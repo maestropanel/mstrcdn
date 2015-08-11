@@ -1,0 +1,1 @@
+CDN Config for Nginx
