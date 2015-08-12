@@ -1,6 +1,5 @@
 package main
 
-
 import (
 	"code.google.com/p/gcfg"
 	"fmt"
@@ -18,14 +17,14 @@ func init() {
 	}
 }
 
-
-func main(){
+func main() {
 	StartAgent(config.Api.SecretKey, config.Api.Port)
 }
 
 type Config struct {
 	Api struct {
-		Port           int
-		SecretKey      string
+		Port       int
+		SecretKey  string
+		ConfigRoot string
 	}
 }
