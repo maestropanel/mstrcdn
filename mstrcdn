@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# mstrcdn
+#
+# chkconfig: 2345 80 30
+# description: MaestroPanel Nginx Agent
+# processname: mstrcdn
+
+
+# Source function library.
+. /etc/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+EXEC=mstrcdn
+DAEMON=/usr/bin/$EXEC
+LOGFILE=/var/log/mstrcdn.log
+
+if [ -f /etc/sysconfig/mstrcdn ];then
+        . /etc/sysconfig/mstrcdn
+fi
+
+prog='mstrcdn'
+
+start() {
+        # Check that networking is up.
+        [ "$NETWORKING" = "no" ] && exit 1
+
+        echo -n $"Starting $prog: "
+        daemon --check $EXEC daemonize -o $LOGFILE -p /var/run/$EXEC.pid -l /var/lock/subsys/$EXEC -u root $DAEMON
+        RETVAL=$?
+        echo
+        [ $RETVAL -eq 0 ] && touch /var/lock/subsys/$EXEC
+        return $RETVAL
+}
+
+stop() {
+        echo -n $"Shutting down $prog: "
+        killproc $EXEC
+        RETVAL=$?
+        echo
+        [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/$EXEC
+        return $RETVAL
+}
+
+# See how we were called.
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        status $EXEC
+        RETVAL=$?
+        ;;
+  restart|reload)
+        stop
+        start
+        RETVAL=$?
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|restart|status}"
+        RETVAL=3
+esac
+
+exit $RETVAL
