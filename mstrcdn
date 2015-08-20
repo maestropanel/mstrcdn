@@ -8,7 +8,7 @@
 
 
 # Source function library.
-. /etc/init.d/functions
+. /etc/rc.d/init.d/functions
 
 # Source networking configuration.
 . /etc/sysconfig/network
@@ -16,10 +16,6 @@
 EXEC=mstrcdn
 DAEMON=/usr/bin/$EXEC
 LOGFILE=/var/log/mstrcdn.log
-
-if [ -f /etc/sysconfig/mstrcdn ];then
-        . /etc/sysconfig/mstrcdn
-fi
 
 prog='mstrcdn'
 
