@@ -34,10 +34,11 @@ Servisin çalışması için gerekli olan konfidürasyon dosyasına aşağıdaki
     /etc/maestropanel/agent/config/mstrcdn.conf
 
 *mstrcdn.conf*
-    [api]
-    Port=9722
-    SecretKey=qK624M3ZrpfCrlia5jQn
-    ConfigRoot="/usr/local/nginx/conf/sites"
+
+    [api] 
+    Port=9722 
+    SecretKey=qK624M3ZrpfCrlia5jQn 
+    ConfigRoot="/usr/local/nginx/conf/sites" 
     TemplatePath="/etc/maestropanel/nginx/tmpl"
 
 **Port**
