@@ -61,6 +61,24 @@ Nginx için oluşturulacak konfigürasyon dosyalarının yolunu belirler.
 
 Nginx için önceden belirlenmeiş şablon konfigürasyon dosyalarının yolunu belirler.
 
+Servis Yönetimi
+---------------
+Servisin deamon'una */etc/rc.d/init.d/mstrcdn* ile ulaşılabilir.
+
+Servisi başlatmak için
+
+    service mstrcdn start
+
+Durdurmak için
+
+    service mstrcdn stop
+
+Restart için 
+
+    service mstrcdn restart
+
+
+
 ----------
 API
 ===
