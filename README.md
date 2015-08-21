@@ -15,16 +15,20 @@ Kurulum
 -------
 Dizin yapısı
 
-/etc/rc.d/init.d/mstrcdn
+*/etc/rc.d/init.d/mstrcdn*
+
 init dosyasıdır. Servisi sisteme register eder.
 
-/bin/mstrcdn 
+*/bin/mstrcdn* 
+
 Ana dosyadır. Servisin core dosyasıdır.
 
-/etc/maestropanel/agent/config/mstrcdn.conf
+*/etc/maestropanel/agent/config/mstrcdn.conf*
+
 Servisin çalışacak değişkenlerinin tutulduğu konfigürasyon dosyasıdır. Standart ini formatındadır. 
 
-/etc/maestropanel/nginx/tmpl 
+*/etc/maestropanel/nginx/tmpl* 
+
 Nginx konfigürasyon templatelerinin tutulduğu klasödür. Servis 3 isimde template dosyası tanımaktadır. (full.cdn.tmpl, split.cdn.tmpl, ssl.cdn.tmpl)
 
 Konfigürasyon
@@ -42,15 +46,19 @@ Servisin çalışması için gerekli olan konfidürasyon dosyasına aşağıdaki
     TemplatePath="/etc/maestropanel/nginx/tmpl"
 
 **Port**
+
 Servisin hangi portu dinlyeceğini belirler.
 
 **SecretKey**
+
 Servise ulaşılırken Authentication header'ında kullanılacak gizli anahtarı belirler.
 
 **ConfigRoot**
+
 Nginx için oluşturulacak konfigürasyon dosyalarının yolunu belirler.
 
 **TemplatePath**
+
 Nginx için önceden belirlenmeiş şablon konfigürasyon dosyalarının yolunu belirler.
 
 ----------
