@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 )
@@ -30,6 +32,8 @@ func (n *Nginx) Create(domainName string, IpAddr string, Port string, ssl bool, 
 
 	if err != nil {
 		m.Message = "Cannot read tmpl file: " + err.Error()
+		log.Println(m.Message)
+
 		return m
 	}
 
@@ -44,11 +48,20 @@ func (n *Nginx) Create(domainName string, IpAddr string, Port string, ssl bool, 
 
 	if err != nil {
 		m.Message = "Cannot save conf file to " + vhostConfPath + " error: " + err.Error()
+		log.Println(m.Message)
+
 		return m
 	}
 
 	m.Success = true
 	m.Message = "Build Success: " + vhostConfPath
+	log.Println(m.Message)
+
+	err = n.reload()
+
+	if err != nil {
+		m.Message = m.Message + " | Nginx Reload: " + err.Error()
+	}
 
 	return m
 }
@@ -64,11 +77,19 @@ func (n *Nginx) Delete(domainName string, rootPath string) (m MessageModel) {
 
 	if err != nil {
 		m.Message = "File cannot be delete: " + vhostConfPath
+		log.Println(m.Message)
 		return
 	}
 
 	m.Success = true
 	m.Message = "Domain deleted: " + domainName
+	log.Println(m.Message)
+
+	err = n.reload()
+
+	if err != nil {
+		m.Message = m.Message + " | Nginx Reload: " + err.Error()
+	}
 
 	return m
 }
@@ -84,20 +105,19 @@ func (n *Nginx) List(rootPath string) (m MessageModelList) {
 	})
 
 	m.Success = true
-	m.Message = "Success"
+	m.Message = "List success"
+	log.Println(m.Message)
 
 	return m
 }
 
 func (n *Nginx) getTemplateFile(fileName string) (text string, err error) {
 
-	currentPath, err := os.Getwd()
-
 	if err != nil {
 		return "", err
 	}
 
-	path := filepath.Join(currentPath, "tmpl", fileName)
+	path := filepath.Join(config.Api.TemplatePath, fileName)
 	b, err := ioutil.ReadFile(path)
 	alltext := string(b)
 
@@ -133,4 +153,13 @@ func (n *Nginx) fileExists(fileName string) bool {
 	}
 
 	return (finfo.IsDir() == false)
+}
+
+func (n *Nginx) reload() (err error) {
+
+	log.Println("Reloading Nginx")
+	cmd := exec.Command("service", "nginx", "reload")
+	err = cmd.Run()
+
+	return err
 }

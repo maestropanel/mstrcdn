@@ -5,8 +5,7 @@ server {
     error_log /dev/null;
 	location / {
                 proxy_pass  http://www.##DOMAIN##;
-                add_header  X-SAGLAYICI-Node TR.IST.05051;
-                proxy_cache yzUnK;
+                add_header  X-SAGLAYICI-Node TR.IST.05051;                
                 proxy_cache_valid  200 302  206 7d;
                 proxy_cache_valid  404      1m;
                 proxy_redirect          off;

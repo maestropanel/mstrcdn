@@ -1,8 +1,35 @@
 CDN Config for Nginx
 
+Gereksinimler
+
+Centon 6.6+ (x64)
+
+daemonize Tool
+yum install -y http://puias.math.ias.edu/data/puias/unsupported/6/x86_64/daemonize-1.7.5-6.sdl6.x86_64.rpm
+
+Kurulum
+
+cp /etc/rc.d/init.d/mstrcdn
+cp /bin/mstrcdn
+mkdir /etc/maestropanel/agent/config
+mkdir /etc/maestropanel/nginx/tmpl
+cp /etc/maestropanel/agent/config/mstrcdn.conf
+cp /etc/maestropanel/nginx/tmpl/*
+
+
+Konfigürasyon
+
+/etc/maestropanel/agent/config/mstrcdn.conf
+
+
+API
+
+
 POST /Cdn/Create
 
 Yeni Nginx konfigürasyonu oluşturur.
+
+
 
 Parametreler
 
