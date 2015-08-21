@@ -74,7 +74,7 @@ Geri dönüş modeli;
 
 POST /Cdn/Create
 ----------------
-Yeni Nginx konfigürasyonu oluşturur.
+Yeni Nginx konfigürasyonu oluşturur. İşlem başarılı gerçekleştirdikten sonra "service nginx reload" komutunu çalıştırır.
 
 **Parametreler**
 
@@ -84,17 +84,37 @@ Yeni Nginx konfigürasyonu oluşturur.
  - ssl: Vhost'u SSL özelliği içeren template'i ile açar.  
  - full: Vhost'u Split olmayan template ile açar.
 
+İstek
+
+    curl --header "Authorization: qK624M3ZrpfCrlia5jQn" -X POST -d "name=domain.com&ipaddr=192.168.5.5&port=80&ssl=false&full=true" http://192.168.5.5:9722/Cdn/Create
+
+Cevap
+
+    {"success":true,"message":"Domain Create Success: domain.com"}
+
 DELETE /Cdn/Delete
 ------------------
-Mevcut bir domain'in konfigürasyonu siler.
+Mevcut bir domain'in konfigürasyonu siler. İşlem başarılı gerçekleştirdikten sonra "service nginx reload" komutunu çalıştırır.
 
 **Parametreler**
 
  - name: domain name
 
+İstek
+
+    curl --header "Authorization: qK624M3ZrpfCrlia5jQn" -X DELETE http://192.168.5.5:9722/Cdn/Delete?name=domain.com
+
+Cevap
+
+    {"success":true,"message":"Domain deleted: domain.com"}
+
 GET /Cdn/List
 -------------
 Mevcut domainlerin listerini verir.
+
+İstek
+
+    curl --header "Authorization: qK624M3ZrpfCrlia5jQn" http://192.168.5.5:9722/Cdn/List
 
 Cevap:
 
