@@ -6,15 +6,15 @@
 # description: MaestroPanel Nginx Agent
 # processname: mstrcdn
 
-
 # Source function library.
-. /etc/rc.d/init.d/functions
+. /etc/init.d/functions
 
 # Source networking configuration.
 . /etc/sysconfig/network
 
 EXEC=mstrcdn
-DAEMON=/usr/bin/$EXEC
+DAEMON=/bin/$EXEC
+OPTIONS="-path=/etc/maestropanel/agent/config/mstrcdn.conf"
 LOGFILE=/var/log/mstrcdn.log
 
 prog='mstrcdn'
@@ -22,9 +22,9 @@ prog='mstrcdn'
 start() {
         # Check that networking is up.
         [ "$NETWORKING" = "no" ] && exit 1
-
+		
         echo -n $"Starting $prog: "
-        daemon --check $EXEC daemonize -o $LOGFILE -p /var/run/$EXEC.pid -l /var/lock/subsys/$EXEC -u root $DAEMON
+        daemon --check $EXEC daemonize -o $LOGFILE -p /var/run/$EXEC.pid -l /var/lock/subsys/$EXEC -u root $DAEMON $OPTIONS
         RETVAL=$?
         echo
         [ $RETVAL -eq 0 ] && touch /var/lock/subsys/$EXEC
@@ -48,9 +48,7 @@ case "$1" in
   stop)
         stop
         ;;
-  status)
-        status $EXEC
-        RETVAL=$?
+  status)        
         ;;
   restart|reload)
         stop
